@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="app_name">SMSTracker</string>
+    <string name="change_keys">Ändern</string>
+    <string name="actual_number">actualNumber</string>
+    <string name="actual_number_text">Aktueller Empfänger:</string>
+    <string name="actual_bike_key">actualBikeKey</string>
+    <string name="actual_bike_key_text">Aktueller Bike Key:</string>
+    <string name="send">SEND!</string>
+    
+    <!-- Initial Values -->
+    
+   	<string name="actual_number_value">123456789</string>    
+    <string name="actual_bike_key_value">key1</string>
+    
+</resources>
