@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/changeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="16dp"
+        android:text="@string/change_keys" />
+
+    <TextView
+        android:id="@+id/actBikeKey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/actual_bike_key_text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/bikeKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/actBikeKey"
+        android:ems="10"
+        android:inputType="textNoSuggestions"
+        android:text="@string/bike_key_value" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/actNetworkKey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/domainName"
+        android:text="@string/actual_network_key_text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/networkKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/actNetworkKey"
+        android:ems="10"
+        android:inputType="textNoSuggestions"
+        android:text="@string/network_key_value" />
+
+    <TextView
+        android:id="@+id/domainText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/bikeKey"
+        android:text="@string/domain_name_text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/domainName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/domainText"
+        android:ems="10"
+        android:inputType="textUri"
+        android:text="@string/domain_name_value" />
+
+    <ToggleButton
+        android:id="@+id/forwardingButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/changeButton"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="16dp"
+        android:text="@string/forwarding_active"
+        android:textOff="@string/forwarding_inactive"
+        android:textOn="@string/forwarding_active" />
+    
+</RelativeLayout>

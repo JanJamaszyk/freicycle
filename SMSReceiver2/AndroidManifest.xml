@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.WRITE_SMS"/>
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name = "android.permission.INTERNET"/>
     
     <uses-sdk
@@ -25,7 +26,7 @@
             </intent-filter>
         </activity>
         
-    	<service android:name="com.smsReceiver.SMSService"></service>
+    	<service android:name=".SMSService"></service>
     </application>
 
 </manifest>

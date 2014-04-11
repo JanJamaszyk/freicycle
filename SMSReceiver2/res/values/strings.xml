@@ -1,0 +1,20 @@
+<resources>
+
+    <string name="app_name">SMSReceiver</string>
+    <string name="bike_key">bikeKey</string>
+    <string name="network_key">networkKey</string>
+	<string name="actual_bike_key_text">Aktueller Bike Key:</string>
+	<string name="actual_network_key_text">Aktueller Netzwerk Key:</string>
+	<string name="domain_name_text">Aktueller Domainname:</string>
+	<string name="domain_name">domainName</string>
+	<string name="forwarding_active">Weiterleitung aktiviert</string>
+	<string name="forwarding_inactive">Weiterleitung deaktiviert</string>
+	<string name="forwarding">forwarding</string>
+	<string name="change_keys">Keys ändern!</string>
+	
+	<!-- Initial values -->
+    <string name="bike_key_value">key1</string>
+    <string name="network_key_value">key2</string>
+    <string name="domain_name_value">www.yourserver.com</string>
+	
+</resources>

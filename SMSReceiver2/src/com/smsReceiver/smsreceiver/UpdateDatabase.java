@@ -12,13 +12,14 @@ import com.smsutils.MD5;
 import com.smsutils.UpdateFailedException;
 
 public class UpdateDatabase {
-	String url;
-	String path;
+	String url="";
 	String secret="";
 	
-	public UpdateDatabase(String url, String path, String secret) {
+	public UpdateDatabase() {
+	}
+	
+	public UpdateDatabase(String url, String secret) {
 		this.url = url;
-		this.path = path;
 		this.secret = secret;
 	}
 	
@@ -37,7 +38,6 @@ public class UpdateDatabase {
 		String uri = new Uri.Builder()
 			.scheme("http")
 			.encodedAuthority(this.url)
-			.appendPath(this.path)
 			.appendQueryParameter("number", number)
 			.appendQueryParameter("data", data)
 			.appendQueryParameter("signature", hash)

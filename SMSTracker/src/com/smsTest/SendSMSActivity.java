@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.smsutils.SMSSenderOnlyException;
 
 public class SendSMSActivity extends Activity {
  
@@ -30,7 +33,7 @@ public class SendSMSActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				SendSMSActivity.this.updatePositionTask.run();
+				SendSMSActivity.this.updatePositionTask.send();
 			}
 		});
 		
@@ -42,13 +45,21 @@ public class SendSMSActivity extends Activity {
 				SendSMSActivity.this.updateEdits();
 			}
 		});
-		//Timer updatePositionTimer = new Timer();
 		
 		String number = sharedPref.getString(getString(R.string.actual_number),numberEdit.getText().toString());
 		String bikeKey = sharedPref.getString(getString(R.string.actual_bike_key), bikeKeyEdit.getText().toString());
 		
-		 this.updatePositionTask = new UpdatePositionTask(this, number, bikeKey);
-		//updatePositionTimer.scheduleAtFixedRate(updatePositionTask, 0, 60*1000);
+		this.updatePositionTask = new UpdatePositionTask(this, number, bikeKey, 60);
+		
+		//Test routine
+		/*
+		Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(new Runnable() {
+			@Override
+			public void run() {
+				SendSMSActivity.this.updatePositionTask.send();
+			}
+		}, 0, 1000, TimeUnit.MILLISECONDS);
+		*/
 		
 	}
 	
@@ -63,8 +74,11 @@ public class SendSMSActivity extends Activity {
 		editor.putString(getString(R.string.actual_bike_key), bikeKey);
 		
 		editor.commit();
-		
-		this.updatePositionTask.setNumber(number);
+		try {
+			this.updatePositionTask.setNumber(number);
+		} catch( SMSSenderOnlyException e) {
+			Toast.makeText(getApplicationContext(), getString(R.string.number_error), Toast.LENGTH_SHORT).show();
+		}
 		this.updatePositionTask.setSecret(bikeKey);
 	}
 }
