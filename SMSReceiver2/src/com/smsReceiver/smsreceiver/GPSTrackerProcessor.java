@@ -30,6 +30,7 @@ public class GPSTrackerProcessor implements DeviceProcessor {
 	public String processMessage(String number, String rawMessage)
 			throws NoDeviceMessageException {
 		
+		String trackerMessage="";
 		String result="";
 		String[] parts = rawMessage.split("\n");
 		if(parts.length!=6)
@@ -76,6 +77,7 @@ public class GPSTrackerProcessor implements DeviceProcessor {
 			Sender sender = new SMSSender(number);
 			sender.send("nofix"+this.bikeKey);
 			Log.d("GPSProcessor","Out of Range, nofix send!");
+			trackerMessage = "range";
 		}
 		
 		
@@ -83,7 +85,8 @@ public class GPSTrackerProcessor implements DeviceProcessor {
 		//result += time.toMillis(true)+":"; // Time
 		result += date.getTime() + ":";
 		result += Float.parseFloat(parts[4].replaceAll("[^0-9]", ""))/100+":2" + ":"; //Battery Level
-
+		result += trackerMessage;
+		
 		return result;
 	}
 	
