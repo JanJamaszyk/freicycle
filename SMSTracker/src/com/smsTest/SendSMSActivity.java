@@ -49,7 +49,7 @@ public class SendSMSActivity extends Activity {
 		String number = sharedPref.getString(getString(R.string.actual_number),numberEdit.getText().toString());
 		String bikeKey = sharedPref.getString(getString(R.string.actual_bike_key), bikeKeyEdit.getText().toString());
 		
-		this.updatePositionTask = new UpdatePositionTask(this, number, bikeKey, 60);
+		this.updatePositionTask = new UpdatePositionTask(this, number, bikeKey, 5*60);
 		
 		//Test routine
 		/*

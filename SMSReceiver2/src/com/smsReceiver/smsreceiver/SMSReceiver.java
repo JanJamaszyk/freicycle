@@ -7,29 +7,25 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-import com.smsutils.MD5;
 import com.smsutils.UpdateFailedException;
 
 public class SMSReceiver extends BroadcastReceiver {
 
 	private UpdateDatabase updater;
-	private String bikeKey="";
+	private DeviceReceiver receiver;
 
-	public SMSReceiver(UpdateDatabase updater) {
+	public SMSReceiver(UpdateDatabase updater, DeviceReceiver receiver) {
 		super();
 		this.updater = updater;
+		this.receiver = receiver;
 		Log.d("service","created!");
-	}
-
-	public void setBikeKey(String key) {
-		this.bikeKey = key;
 	}
 
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
 		Bundle extras = intent.getExtras();
-		
+
 		if ( extras != null )
 		{
 			Object[] smsextras = (Object[]) extras.get( "pdus" );
@@ -41,31 +37,23 @@ public class SMSReceiver extends BroadcastReceiver {
 				String body = smsmsg.getMessageBody().toString();
 				String address = smsmsg.getOriginatingAddress();
 
-				int hashIndex = body.lastIndexOf(":");
+				Log.d("message",body);
 
-				if(hashIndex>0) {
-					String hash = body.substring(hashIndex+1);
-					String message = body.substring(0, hashIndex);
-					String referenceHash = MD5.hash(message+this.bikeKey);
-					try {
-						if( hash.equals(referenceHash) ) {
-							updater.update(address, message);
-							Log.d("forwarded", address);
-							this.abortBroadcast();
-						} else {
-							Log.d("key", this.bikeKey);
-							Log.d("hash","discarded!" );
-							Log.d("hash", hash);
-							Log.d("reference Hash", referenceHash);
-							Log.d("message",message);
-						}
+				try{
+					String message = this.receiver.getMessage(body);
+					updater.update(address, message);
+					Log.d("forwarded", address);
+					this.abortBroadcast();
 
-					} catch (UpdateFailedException e) {
-						Log.e("update",e.toString());
-					}
+				} catch (NoDeviceMessageException e) {
+
+				} catch (UpdateFailedException e) {
+					Log.e("update",e.toString());
 				}
 
+
 			}
+
 		}
 	}
 }

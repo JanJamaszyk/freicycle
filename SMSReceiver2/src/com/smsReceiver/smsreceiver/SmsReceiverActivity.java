@@ -26,7 +26,7 @@ public class SmsReceiverActivity extends Activity {
 	ToggleButton forwardingButton;
 	Button changeKeyButton;
 	SharedPreferences sharedPref;
-
+	
     SMSService smsService;
     boolean isBound = false;
 	
@@ -34,7 +34,7 @@ public class SmsReceiverActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main);
-
+		
 		bikeKeyField = (EditText)findViewById(R.id.bikeKey);
 		networkKeyField = (EditText)findViewById(R.id.networkKey);
 		domainNameField = (EditText)findViewById(R.id.domainName);
@@ -106,10 +106,10 @@ public class SmsReceiverActivity extends Activity {
 		Log.d("forwarding",""+forwarding);
 		if(forwarding) {
 			startService(serviceIntent);
-	        bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+			bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
 		} else {
-			stopService(serviceIntent);
 			unbindService(serviceConnection);
+			stopService(serviceIntent);
 		}
 
 		SharedPreferences.Editor editor = sharedPref.edit();

@@ -1,9 +1,5 @@
 package com.smsTest;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -23,11 +19,8 @@ public class UpdatePositionTask implements LocationListener {
 	Sender sender;
 	double latitude=52.380656;
 	double longitude=9.745458;
-	int delay;
 	String message="";
 	IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-	private final ScheduledExecutorService scheduler;
-	Intent batteryStatus;
 
 	LocationManagerHandler locationHandler;
 	TelephonyManager telManager;
@@ -36,13 +29,10 @@ public class UpdatePositionTask implements LocationListener {
 	public UpdatePositionTask(Context context, String number, String secret, int delay) {
 		this.context=context;
 		this.secret = secret;
-		this.delay = delay;
 		this.sender = new SMSSender(number);
-		this.batteryStatus = context.registerReceiver(null, ifilter);
 		this.telManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-		this.locationHandler = new LocationManagerHandler(context, this);
-		this.scheduler = Executors.newScheduledThreadPool(1);
-
+		this.locationHandler = LocationManagerHandler.getInstance(context, this, delay);
+		
 		Location location = locationHandler.getLastKnownLocation();
 		
 		if(location!=null)
@@ -67,11 +57,12 @@ public class UpdatePositionTask implements LocationListener {
 
 	public void send() {
 		
+		Intent batteryStatus = context.registerReceiver(null, ifilter);
 		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
 		int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 		int health = batteryStatus.getIntExtra(BatteryManager.EXTRA_HEALTH, -1);
-		
 		float batteryPct = (level / (float)scale);
+		
 		String msg = this.latitude+":"+this.longitude+":"+ System.currentTimeMillis() +":" + batteryPct +":"+health+":"+this.message;
 		msg += ":" + MD5.hash(msg+this.secret);
 		//Log.d("länge", ""+msg.length());
@@ -81,8 +72,6 @@ public class UpdatePositionTask implements LocationListener {
 	
 	public void onLocationChanged(Location location) {
 		
-		locationHandler.unregisterListener();
-		
 		this.latitude = location.getLatitude();
 		this.longitude = location.getLongitude();
 		//Log.d("location","changed!");
@@ -90,8 +79,9 @@ public class UpdatePositionTask implements LocationListener {
 		if(outOfRange(location)) {
 			this.message="range";
 			Log.e("range","Moved out of range!");
+			locationHandler.unregisterListener();
 		} else {
-			scheduler.schedule(locationHandler, this.delay, TimeUnit.SECONDS);
+			locationHandler.scheduleListener();
 		}
 		this.send();
 		
@@ -110,18 +100,18 @@ public class UpdatePositionTask implements LocationListener {
 	
 	@Override
 	public void onProviderDisabled(String provider) {
-		Log.d("provider disabled", provider);
+//		Log.d("provider disabled", provider);
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		Log.d("provider enabled", provider);
+//		Log.d("provider enabled", provider);
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Log.d("status changed", provider);
-		Log.d("status", ""+status);
+//		Log.d("status changed", provider);
+//		Log.d("status", ""+status);
 	}
 	
 }
