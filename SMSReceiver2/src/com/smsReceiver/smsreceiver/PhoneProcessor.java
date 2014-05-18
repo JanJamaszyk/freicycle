@@ -5,16 +5,13 @@ import com.smsutils.MD5;
 public class PhoneProcessor implements DeviceProcessor {
 
 	private String bikeKey="";
-
-	public PhoneProcessor() {
-	}
 	
 	public void setBikeKey(String key) {
 		this.bikeKey = key;
 	}
 
 	@Override
-	public String processMessage(String rawMessage) throws NoDeviceMessageException {
+	public String processMessage(String number, String rawMessage) throws NoDeviceMessageException {
 		int hashIndex = rawMessage.lastIndexOf(":");
 
 		if(hashIndex<=0) {

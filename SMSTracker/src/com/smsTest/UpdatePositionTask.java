@@ -11,7 +11,9 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.smsutils.MD5;
+import com.smsutils.SMSSender;
 import com.smsutils.SMSSenderOnlyException;
+import com.smsutils.Sender;
 
 public class UpdatePositionTask implements LocationListener {
 

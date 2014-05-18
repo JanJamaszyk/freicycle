@@ -37,16 +37,14 @@ public class SMSReceiver extends BroadcastReceiver {
 				String body = smsmsg.getMessageBody().toString();
 				String address = smsmsg.getOriginatingAddress();
 
-				Log.d("message",body);
-
 				try{
-					String message = this.processor.processMessage(body);
+					String message = this.processor.processMessage(null, body);
 					updater.update(address, message);
 					Log.d("forwarded", address);
 					this.abortBroadcast();
 
 				} catch (NoDeviceMessageException e) {
-
+					Log.d("SMSReceiver","No message im processable format");
 				} catch (UpdateFailedException e) {
 					Log.e("update",e.toString());
 				}

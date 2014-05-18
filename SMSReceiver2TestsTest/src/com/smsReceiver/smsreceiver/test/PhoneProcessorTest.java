@@ -19,7 +19,7 @@ public class PhoneProcessorTest extends TestCase {
 		PhoneProcessor phoneProcessor = new PhoneProcessor();
 		phoneProcessor.setBikeKey("b!k3KeY");
 
-		String answer = phoneProcessor.processMessage("52.380656:9.745458:1400403040577:0.32:2:no_lock:d0d643cfadf60c4a6f6199c83777d9c5");
+		String answer = phoneProcessor.processMessage(null, "52.380656:9.745458:1400403040577:0.32:2:no_lock:d0d643cfadf60c4a6f6199c83777d9c5");
 		assertEquals("Processed String","52.380656:9.745458:1400403040577:0.32:2:no_lock", answer);
 	}
 

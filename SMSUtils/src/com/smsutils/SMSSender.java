@@ -1,4 +1,4 @@
-package com.smsTest;
+package com.smsutils;
 
 import android.telephony.SmsManager;
 
@@ -6,7 +6,7 @@ public class SMSSender implements Sender {
 	
 	private String number;
 	
-	SMSSender(String number) {
+	public SMSSender(String number) {
 		this.number = number;
 	}
 	
