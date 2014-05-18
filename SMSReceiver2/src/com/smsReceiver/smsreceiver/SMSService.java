@@ -19,7 +19,7 @@ public class SMSService extends Service {
 	private SMSReceiver mSMSreceiver;
 	private IntentFilter mIntentFilter;
 	private UpdateDatabase updater;
-	private PhoneReceiver phoneReceiver;
+	private PhoneProcessor phoneProcessor;
 	SharedPreferences sharedPref;
 
 	PowerManager.WakeLock wakeLock;
@@ -33,10 +33,10 @@ public class SMSService extends Service {
 		wakeLock.acquire();
 
 		updater = new UpdateDatabase();
-		phoneReceiver = new PhoneReceiver();
+		phoneProcessor = new PhoneProcessor();
 		
 		//SMS event receiver
-		mSMSreceiver = new SMSReceiver(updater, phoneReceiver);
+		mSMSreceiver = new SMSReceiver(updater, phoneProcessor);
 		mIntentFilter = new IntentFilter();
 		mIntentFilter.setPriority(Integer.MAX_VALUE);
 		mIntentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
@@ -87,7 +87,7 @@ public class SMSService extends Service {
 	}
 	
 	public void setBikeKey(String key) {
-		this.phoneReceiver.setBikeKey(key);
+		this.phoneProcessor.setBikeKey(key);
 	}
 	
 	public void setDomainName(String name) {

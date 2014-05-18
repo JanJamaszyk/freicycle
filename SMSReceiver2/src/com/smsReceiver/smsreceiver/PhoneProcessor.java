@@ -2,11 +2,11 @@ package com.smsReceiver.smsreceiver;
 
 import com.smsutils.MD5;
 
-public class PhoneReceiver implements DeviceReceiver {
+public class PhoneProcessor implements DeviceProcessor {
 
 	private String bikeKey="";
 
-	public PhoneReceiver() {
+	public PhoneProcessor() {
 	}
 	
 	public void setBikeKey(String key) {
@@ -14,7 +14,7 @@ public class PhoneReceiver implements DeviceReceiver {
 	}
 
 	@Override
-	public String getMessage(String rawMessage) throws NoDeviceMessageException {
+	public String processMessage(String rawMessage) throws NoDeviceMessageException {
 		int hashIndex = rawMessage.lastIndexOf(":");
 
 		if(hashIndex<=0) {

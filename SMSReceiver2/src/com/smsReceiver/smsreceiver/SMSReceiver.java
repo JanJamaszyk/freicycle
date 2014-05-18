@@ -12,12 +12,12 @@ import com.smsutils.UpdateFailedException;
 public class SMSReceiver extends BroadcastReceiver {
 
 	private UpdateDatabase updater;
-	private DeviceReceiver receiver;
+	private DeviceProcessor processor;
 
-	public SMSReceiver(UpdateDatabase updater, DeviceReceiver receiver) {
+	public SMSReceiver(UpdateDatabase updater, DeviceProcessor processor) {
 		super();
 		this.updater = updater;
-		this.receiver = receiver;
+		this.processor = processor;
 		Log.d("service","created!");
 	}
 
@@ -40,7 +40,7 @@ public class SMSReceiver extends BroadcastReceiver {
 				Log.d("message",body);
 
 				try{
-					String message = this.receiver.getMessage(body);
+					String message = this.processor.processMessage(body);
 					updater.update(address, message);
 					Log.d("forwarded", address);
 					this.abortBroadcast();
@@ -50,7 +50,6 @@ public class SMSReceiver extends BroadcastReceiver {
 				} catch (UpdateFailedException e) {
 					Log.e("update",e.toString());
 				}
-
 
 			}
 
